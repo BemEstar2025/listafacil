@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import ProdutosSection from "./ProdutosSection";
 import OrcamentosSection from "./OrcamentosSection";
 import DestaqueSection from "./DestaqueSection";
+import Topbar from "../../Topbar";
+import LogoutButton from "../../LogoutButton";
 
 export default async function PainelPapelariaPage() {
   let sessao;
@@ -25,22 +27,21 @@ export default async function PainelPapelariaPage() {
   });
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
-      <div className="page-header-accent">
-        <h1 className="text-2xl font-bold">📚 {papelaria?.nomeFantasia}</h1>
-      </div>
+    <>
+      <Topbar titulo={papelaria?.nomeFantasia ?? ""} cor="accent" acoes={<LogoutButton />} />
+      <main className="mx-auto max-w-4xl px-8 pb-8">
+        <section>
+          <DestaqueSection destacadaAte={papelaria?.destacadaAte?.toISOString() ?? null} />
+        </section>
 
-      <section className="mt-8">
-        <DestaqueSection destacadaAte={papelaria?.destacadaAte?.toISOString() ?? null} />
-      </section>
+        <section className="mt-8">
+          <ProdutosSection produtosIniciais={produtos} />
+        </section>
 
-      <section className="mt-8">
-        <ProdutosSection produtosIniciais={produtos} />
-      </section>
-
-      <section className="mt-12">
-        <OrcamentosSection orcamentosIniciais={orcamentos} />
-      </section>
-    </main>
+        <section className="mt-12">
+          <OrcamentosSection orcamentosIniciais={orcamentos} />
+        </section>
+      </main>
+    </>
   );
 }

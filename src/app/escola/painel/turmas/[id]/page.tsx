@@ -4,6 +4,8 @@ import { redirect, notFound } from "next/navigation";
 import NovaListaButton from "./NovaListaButton";
 import ListaItens from "./ListaItens";
 import LinkCompartilhamento from "./LinkCompartilhamento";
+import Topbar from "../../../../Topbar";
+import LogoutButton from "../../../../LogoutButton";
 
 export default async function TurmaDetalhePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -24,26 +26,26 @@ export default async function TurmaDetalhePage({ params }: { params: Promise<{ i
   const listaAtiva = turma.listas.find((l) => l.status === "ATIVA") ?? turma.listas[0];
 
   return (
-    <main className="mx-auto max-w-3xl p-8">
-      <a href="/escola/painel" className="text-sm link-primary">
-        ← Voltar
-      </a>
-      <h1 className="mt-2 text-2xl font-bold">{turma.nome}</h1>
-      <p className="text-sm text-gray-500">
-        {turma.anoLetivo} · {turma.periodo} · {turma.qtdAlunos} alunos · Prof. {turma.professor}
-      </p>
-
-      {!listaAtiva ? (
-        <div className="mt-8">
-          <p className="mb-3 text-sm text-gray-600">Esta turma ainda não tem lista de material.</p>
-          <NovaListaButton turmaId={turma.id} anoLetivo={turma.anoLetivo} />
-        </div>
-      ) : (
-        <div className="mt-8 flex flex-col gap-6">
-          <LinkCompartilhamento listaId={listaAtiva.id} />
-          <ListaItens listaId={listaAtiva.id} itens={listaAtiva.itens} />
-        </div>
-      )}
-    </main>
+    <>
+      <Topbar
+        titulo={turma.nome}
+        subtitulo={`${turma.anoLetivo} · ${turma.periodo} · ${turma.qtdAlunos} alunos · Prof. ${turma.professor}`}
+        voltarPara={{ href: "/escola/painel", label: "Turmas" }}
+        acoes={<LogoutButton />}
+      />
+      <main className="mx-auto max-w-3xl px-8 pb-8">
+        {!listaAtiva ? (
+          <div>
+            <p className="mb-3 text-sm text-gray-600">Esta turma ainda não tem lista de material.</p>
+            <NovaListaButton turmaId={turma.id} anoLetivo={turma.anoLetivo} />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-6">
+            <LinkCompartilhamento listaId={listaAtiva.id} />
+            <ListaItens listaId={listaAtiva.id} itens={listaAtiva.itens} />
+          </div>
+        )}
+      </main>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IlustracaoEscola, IlustracaoPapelaria, IlustracaoPai } from "./Ilustracoes";
+import { School, BookOpen, User } from "lucide-react";
 import Reveal from "./Reveal";
 
 type PerfilKey = "escola" | "papelaria" | "pai";
@@ -9,19 +9,17 @@ type PerfilKey = "escola" | "papelaria" | "pai";
 const PERFIS: Record<
   PerfilKey,
   {
-    emoji: string;
+    Icone: React.ComponentType<{ size?: number; className?: string }>;
     titulo: string;
     cor: string;
-    Ilustracao: React.ComponentType<{ className?: string }>;
     passos: string[];
     mockup: React.ReactNode;
   }
 > = {
   escola: {
-    emoji: "🏫",
+    Icone: School,
     titulo: "Escola",
-    cor: "violet",
-    Ilustracao: IlustracaoEscola,
+    cor: "primary",
     passos: [
       "Cadastre suas turmas em poucos cliques",
       "Suba a lista de material direto do Excel",
@@ -29,22 +27,21 @@ const PERFIS: Record<
     ],
     mockup: (
       <div className="card p-4">
-        <p className="mb-2 text-xs font-semibold text-violet-600">1º Ano A · 2026</p>
-        <div className="flex items-center gap-2 rounded-2xl border-2 border-dashed border-violet-200 p-3 text-sm text-violet-700">
-          📄 lista-1ano-a.xlsx
+        <p className="mb-2 text-xs font-semibold" style={{ color: "var(--color-primary)" }}>1º Ano A · 2026</p>
+        <div className="flex items-center gap-2 rounded-xl border-2 border-dashed p-3 text-sm" style={{ borderColor: "var(--color-primary-light)" }}>
+          <span className="text-gray-700">lista-1ano-a.xlsx</span>
           <span className="ml-auto badge">importado ✓</span>
         </div>
-        <div className="mt-3 flex items-center gap-2 rounded-2xl bg-violet-50 p-3 text-sm">
-          🔗 listafacil.app/lista/8f2a91...
+        <div className="mt-3 flex items-center gap-2 rounded-xl p-3 text-sm text-gray-500" style={{ background: "var(--color-primary-light)" }}>
+          listafacil.app/lista/8f2a91...
         </div>
       </div>
     ),
   },
   papelaria: {
-    emoji: "📚",
+    Icone: BookOpen,
     titulo: "Papelaria",
-    cor: "orange",
-    Ilustracao: IlustracaoPapelaria,
+    cor: "accent",
     passos: [
       "Cadastre seu catálogo (manual ou planilha)",
       "Receba pedidos de orçamento automaticamente no painel",
@@ -53,22 +50,19 @@ const PERFIS: Record<
     mockup: (
       <div className="card p-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold">Novo orçamento recebido</p>
-          <span className="badge" style={{ background: "#ffedd5", color: "#c2410c" }}>
-            Novo
-          </span>
+          <p className="text-sm font-semibold text-gray-800">Novo orçamento recebido</p>
+          <span className="badge-accent">Novo</span>
         </div>
         <p className="mt-2 text-sm text-gray-500">João Pai — 1º Ano A</p>
-        <p className="mt-1 text-sm">7 itens · R$ 78,90 estimado</p>
+        <p className="mt-1 text-sm text-gray-700">7 itens · R$ 78,90 estimado</p>
         <div className="mt-3 btn-whatsapp w-fit text-sm">Responder via WhatsApp</div>
       </div>
     ),
   },
   pai: {
-    emoji: "🎒",
+    Icone: User,
     titulo: "Pai / Responsável",
-    cor: "violet",
-    Ilustracao: IlustracaoPai,
+    cor: "primary",
     passos: [
       "Acesse a lista pelo link, sem precisar criar conta",
       "Compare papelarias por preço, distância e disponibilidade",
@@ -76,12 +70,12 @@ const PERFIS: Record<
     ],
     mockup: (
       <div className="card flex flex-col gap-2 p-4">
-        <div className="flex items-center justify-between rounded-2xl border-2 border-violet-200 bg-violet-50 p-2 text-sm">
-          <span>📍 Papelaria Estrela</span>
-          <span className="font-semibold text-violet-700">R$ 78,90</span>
+        <div className="flex items-center justify-between rounded-xl border-2 p-2 text-sm" style={{ borderColor: "var(--color-primary)", background: "var(--color-primary-light)" }}>
+          <span className="text-gray-700">Papelaria Estrela</span>
+          <span className="font-semibold" style={{ color: "var(--color-primary)" }}>R$ 78,90</span>
         </div>
-        <div className="flex items-center justify-between rounded-2xl border-2 border-transparent p-2 text-sm text-gray-500">
-          <span>📍 Papelaria Centro</span>
+        <div className="flex items-center justify-between rounded-xl border-2 border-transparent p-2 text-sm text-gray-500">
+          <span>Papelaria Centro</span>
           <span>R$ 84,20</span>
         </div>
         <div className="btn-whatsapp mt-1 w-fit text-sm">Solicitar orçamento</div>
@@ -93,30 +87,25 @@ const PERFIS: Record<
 export default function ComoFunciona() {
   const [ativo, setAtivo] = useState<PerfilKey>("escola");
   const perfil = PERFIS[ativo];
-  const Ilustracao = perfil.Ilustracao;
+  const Icone = perfil.Icone;
 
   return (
     <Reveal className="w-full">
       <section className="w-full">
-        <h2 className="text-center text-2xl font-bold">Como funciona</h2>
+        <h2 className="text-center text-2xl font-bold text-gray-900">Como funciona</h2>
         <p className="mt-1 text-center text-gray-500">Escolha seu perfil e veja a jornada completa</p>
 
         <div className="mt-6 flex justify-center gap-2">
-          {(Object.keys(PERFIS) as PerfilKey[]).map((key) => (
-            <button
-              key={key}
-              onClick={() => setAtivo(key)}
-              className={
-                ativo === key
-                  ? PERFIS[key].cor === "orange"
-                    ? "btn-accent text-sm"
-                    : "btn-primary text-sm"
-                  : "btn-outline text-sm"
-              }
-            >
-              {PERFIS[key].emoji} {PERFIS[key].titulo}
-            </button>
-          ))}
+          {(Object.keys(PERFIS) as PerfilKey[]).map((key) => {
+            const P = PERFIS[key];
+            const ativoClasse = ativo === key ? (P.cor === "accent" ? "btn-accent" : "btn-primary") : "btn-outline";
+            return (
+              <button key={key} onClick={() => setAtivo(key)} className={`${ativoClasse} text-sm`}>
+                <P.Icone size={16} />
+                {P.titulo}
+              </button>
+            );
+          })}
         </div>
 
         <div className="mt-8 grid items-center gap-8 sm:grid-cols-2">
@@ -134,8 +123,10 @@ export default function ComoFunciona() {
               </li>
             ))}
           </ol>
-          <div key={ativo} className="flex flex-col items-center gap-4">
-            <Ilustracao className="illustration-enter h-40 w-40" />
+          <div key={ativo} className="flex flex-col items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: perfil.cor === "accent" ? "var(--color-accent-light)" : "var(--color-primary-light)" }}>
+              <Icone size={22} className={perfil.cor === "accent" ? "text-amber-800" : "text-indigo-700"} />
+            </div>
             <div className="w-full animate-[fadeIn_0.5s_ease-out_0.1s_backwards]">{perfil.mockup}</div>
           </div>
         </div>

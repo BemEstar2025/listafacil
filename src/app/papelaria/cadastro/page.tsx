@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthCard from "../../AuthCard";
 
 export default function CadastroPapelariaPage() {
   const router = useRouter();
@@ -48,8 +49,7 @@ export default function CadastroPapelariaPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-6 text-2xl font-bold">Cadastro da Papelaria</h1>
+    <AuthCard titulo="Cadastro da Papelaria" emoji="📚">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input name="nomeFantasia" label="Nome fantasia" required />
         <Input name="razaoSocial" label="Razão social" required />
@@ -60,20 +60,16 @@ export default function CadastroPapelariaPage() {
         <Input name="telefone" label="Telefone (opcional)" />
         <Input name="horario" label="Horário de funcionamento" />
         <Input name="raioKm" label="Raio de atendimento (km)" type="number" />
-        <label className="flex items-center gap-2 text-sm font-medium">
-          <input name="entregaDomicilio" type="checkbox" /> Entrega a domicílio
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <input name="entregaDomicilio" type="checkbox" className="h-4 w-4 accent-orange-600" /> Entrega a domicílio
         </label>
-        <label className="flex items-center gap-2 text-sm font-medium">
-          <input name="retiradaLocal" type="checkbox" defaultChecked /> Retirada no local
+        <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <input name="retiradaLocal" type="checkbox" defaultChecked className="h-4 w-4 accent-orange-600" /> Retirada no local
         </label>
         <Input name="email" type="email" label="E-mail" required />
         <Input name="senha" type="password" label="Senha" required />
         {erro && <p className="text-sm text-red-600">{erro}</p>}
-        <button
-          type="submit"
-          disabled={carregando}
-          className="btn-accent"
-        >
+        <button type="submit" disabled={carregando} className="btn-accent">
           {carregando ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
@@ -83,7 +79,7 @@ export default function CadastroPapelariaPage() {
           Entrar
         </a>
       </p>
-    </main>
+    </AuthCard>
   );
 }
 

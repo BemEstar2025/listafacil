@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthCard from "../../AuthCard";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -31,8 +32,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-6 text-2xl font-bold">🔐 Admin ListaFácil</h1>
+    <AuthCard titulo="Admin ListaFácil" emoji="🔐">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="label">
           Senha de administrador
@@ -43,6 +43,6 @@ export default function AdminLoginPage() {
           {carregando ? "Entrando..." : "Entrar"}
         </button>
       </form>
-    </main>
+    </AuthCard>
   );
 }

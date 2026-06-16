@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthCard from "../../AuthCard";
 
 export default function LoginPapelariaPage() {
   const router = useRouter();
@@ -31,8 +32,7 @@ export default function LoginPapelariaPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-6 text-2xl font-bold">Login da Papelaria</h1>
+    <AuthCard titulo="Login da Papelaria" emoji="📚">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <label className="label">
           E-mail
@@ -43,11 +43,7 @@ export default function LoginPapelariaPage() {
           <input name="senha" type="password" required className="input" />
         </label>
         {erro && <p className="text-sm text-red-600">{erro}</p>}
-        <button
-          type="submit"
-          disabled={carregando}
-          className="btn-accent"
-        >
+        <button type="submit" disabled={carregando} className="btn-accent">
           {carregando ? "Entrando..." : "Entrar"}
         </button>
       </form>
@@ -57,6 +53,6 @@ export default function LoginPapelariaPage() {
           Cadastrar papelaria
         </a>
       </p>
-    </main>
+    </AuthCard>
   );
 }

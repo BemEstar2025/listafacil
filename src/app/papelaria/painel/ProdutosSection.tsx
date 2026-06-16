@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Table, Th, Td, Tr } from "../../Table";
 
 type Produto = {
   id: string;
@@ -141,28 +142,50 @@ export default function ProdutosSection({ produtosIniciais }: { produtosIniciais
         {msgImport && <span className="text-sm text-gray-600">{msgImport}</span>}
       </form>
 
-      <ul className="flex flex-col gap-2">
-        {produtosIniciais.map((produto) => (
-          <li key={produto.id} className="flex items-center justify-between card p-3">
-            <div>
-              <p className="font-medium">
-                {produto.nome} {produto.esgotado && <span className="text-xs text-red-500">(esgotado)</span>}
-              </p>
-              <p className="text-sm text-gray-500">
-                {produto.categoria} {produto.marca && `· ${produto.marca}`} · R$ {produto.preco.toFixed(2)} · estoque: {produto.estoque}
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => alternarEsgotado(produto)} className="text-sm link-primary">
-                {produto.esgotado ? "Marcar disponível" : "Marcar esgotado"}
-              </button>
-              <button onClick={() => removerProduto(produto.id)} className="text-sm text-red-600 hover:underline">
-                Remover
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {produtosIniciais.length === 0 ? (
+        <p className="text-sm text-gray-500">Nenhum produto cadastrado ainda.</p>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <Th>Produto</Th>
+              <Th>Categoria</Th>
+              <Th>Preço</Th>
+              <Th>Estoque</Th>
+              <Th>Status</Th>
+              <Th></Th>
+            </tr>
+          </thead>
+          <tbody>
+            {produtosIniciais.map((produto) => (
+              <Tr key={produto.id}>
+                <Td className="font-medium text-[var(--foreground)]">
+                  {produto.nome}
+                  {produto.marca && <span className="text-gray-400"> · {produto.marca}</span>}
+                </Td>
+                <Td>{produto.categoria}</Td>
+                <Td>R$ {produto.preco.toFixed(2)}</Td>
+                <Td>{produto.estoque}</Td>
+                <Td>
+                  {produto.esgotado ? (
+                    <span className="badge" style={{ background: "#fee2e2", color: "#b91c1c" }}>Esgotado</span>
+                  ) : (
+                    <span className="badge" style={{ background: "#dcfce7", color: "#15803d" }}>Disponível</span>
+                  )}
+                </Td>
+                <Td className="text-right">
+                  <button onClick={() => alternarEsgotado(produto)} className="mr-3 text-sm link-primary">
+                    {produto.esgotado ? "Marcar disponível" : "Marcar esgotado"}
+                  </button>
+                  <button onClick={() => removerProduto(produto.id)} className="text-sm text-red-600 hover:underline">
+                    Remover
+                  </button>
+                </Td>
+              </Tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
     </div>
   );
 }

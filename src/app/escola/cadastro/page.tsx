@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthCard from "../../AuthCard";
 
 export default function CadastroEscolaPage() {
   const router = useRouter();
@@ -42,8 +43,7 @@ export default function CadastroEscolaPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md p-8">
-      <h1 className="mb-6 text-2xl font-bold">Cadastro da Escola</h1>
+    <AuthCard titulo="Cadastro da Escola" emoji="🏫">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <Input name="nome" label="Nome da escola" required />
         <Input name="cnpj" label="CNPJ" required />
@@ -53,11 +53,7 @@ export default function CadastroEscolaPage() {
         <Input name="responsavelNome" label="Nome do responsável administrativo" required />
         <Input name="senha" type="password" label="Senha" required />
         {erro && <p className="text-sm text-red-600">{erro}</p>}
-        <button
-          type="submit"
-          disabled={carregando}
-          className="btn-primary"
-        >
+        <button type="submit" disabled={carregando} className="btn-primary">
           {carregando ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
@@ -67,7 +63,7 @@ export default function CadastroEscolaPage() {
           Entrar
         </a>
       </p>
-    </main>
+    </AuthCard>
   );
 }
 

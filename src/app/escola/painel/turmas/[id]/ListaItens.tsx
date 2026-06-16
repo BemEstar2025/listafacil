@@ -130,8 +130,8 @@ export default function ListaItens({ listaId, itens }: { listaId: string; itens:
               <option value="OUTRO">Outro</option>
             </select>
           </label>
-          <label className="flex items-center gap-2 text-sm font-medium">
-            <input name="obrigatorio" type="checkbox" defaultChecked /> Obrigatório
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+            <input name="obrigatorio" type="checkbox" defaultChecked className="h-4 w-4 accent-violet-600" /> Obrigatório
           </label>
         </div>
         {erro && <p className="text-sm text-red-600">{erro}</p>}
