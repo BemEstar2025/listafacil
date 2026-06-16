@@ -33,6 +33,11 @@ enum Periodo {
   INTEGRAL
 }
 
+enum AutorMensagem {
+  PAI
+  PAPELARIA
+}
+
 model Escola {
   id                    String   @id @default(uuid())
   nome                  String
@@ -67,13 +72,16 @@ model Turma {
 }
 
 model Lista {
-  id          String       @id @default(uuid())
-  turmaId     String
-  turma       Turma        @relation(fields: [turmaId], references: [id], onDelete: Cascade)
-  ano         Int
-  status      StatusLista  @default(ATIVA)
-  linkUnico   String       @unique @default(uuid())
-  criadoEm    DateTime     @default(now())
+  id               String       @id @default(uuid())
+  turmaId          String
+  turma            Turma        @relation(fields: [turmaId], references: [id], onDelete: Cascade)
+  ano              Int
+  status           StatusLista  @default(ATIVA)
+  linkUnico        String       @unique @default(uuid())
+  criadoEm         DateTime     @default(now())
+
+  papelariaOficialId String?
+  papelariaOficial    Papelaria? @relation("PapelariaOficial", fields: [papelariaOficialId], references: [id])
 
   itens       ItemLista[]
   orcamentos  Orcamento[]
@@ -118,9 +126,12 @@ model Papelaria {
   senhaHash       String
   criadoEm        DateTime @default(now())
 
+  destacadaAte    DateTime?
+
   produtos        Produto[]
   orcamentos      Orcamento[]
   avaliacoes      Avaliacao[]
+  listasOficiais  Lista[]     @relation("PapelariaOficial")
 
   @@map("papelarias")
 }
@@ -163,8 +174,20 @@ model Orcamento {
 
   itens               ItemOrcamento[]
   avaliacao           Avaliacao?
+  mensagens           MensagemOrcamento[]
 
   @@map("orcamentos")
+}
+
+model MensagemOrcamento {
+  id          String        @id @default(uuid())
+  orcamentoId String
+  orcamento   Orcamento     @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
+  autor       AutorMensagem
+  texto       String
+  criadoEm    DateTime      @default(now())
+
+  @@map("mensagens_orcamento")
 }
 
 model ItemOrcamento {

@@ -56,14 +56,14 @@ export default function CadastroEscolaPage() {
         <button
           type="submit"
           disabled={carregando}
-          className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+          className="btn-primary"
         >
           {carregando ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
       <p className="mt-4 text-sm text-gray-600">
         Já tem conta?{" "}
-        <a href="/escola/login" className="text-blue-600 underline">
+        <a href="/escola/login" className="link-primary">
           Entrar
         </a>
       </p>
@@ -83,13 +83,13 @@ function Input({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium">
+    <label className="label">
       {label}
       <input
         name={name}
         type={type}
         required={required}
-        className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal"
+        className="input"
       />
     </label>
   );

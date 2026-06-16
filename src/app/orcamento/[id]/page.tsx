@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import AvaliacaoForm from "./AvaliacaoForm";
+import ChatOrcamento from "../../ChatOrcamento";
 
 const STATUS_LABEL: Record<string, string> = {
   NOVO: "Novo",
@@ -22,10 +23,12 @@ export default async function OrcamentoStatusPage({ params }: { params: Promise<
 
   return (
     <main className="mx-auto max-w-2xl p-8">
-      <h1 className="text-2xl font-bold">Status do orçamento</h1>
-      <p className="mt-1 text-gray-600">{orcamento.papelaria.nomeFantasia}</p>
+      <div className="page-header">
+        <h1 className="text-2xl font-bold">📦 Status do orçamento</h1>
+        <p className="mt-1 text-violet-100">{orcamento.papelaria.nomeFantasia}</p>
+      </div>
 
-      <div className="mt-4 rounded-md border border-gray-200 p-4">
+      <div className="mt-4 card p-4">
         <p className="mb-2">
           Status: <span className="font-semibold">{STATUS_LABEL[orcamento.status]}</span>
         </p>
@@ -38,6 +41,10 @@ export default async function OrcamentoStatusPage({ params }: { params: Promise<
           ))}
         </ul>
         <p className="mt-2 font-semibold">Total: R$ {orcamento.total.toFixed(2)}</p>
+      </div>
+
+      <div className="mt-6">
+        <ChatOrcamento orcamentoId={orcamento.id} autor="PAI" apiBase="/api/publico/orcamentos" />
       </div>
 
       {orcamento.status === "ENTREGUE" && !orcamento.avaliacao && (

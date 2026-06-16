@@ -21,8 +21,10 @@ export default async function PainelEscolaPage() {
 
   return (
     <main className="mx-auto max-w-3xl p-8">
-      <h1 className="text-2xl font-bold">Painel — {escola?.nome}</h1>
-      <p className="mt-1 text-gray-600">Bem-vindo(a), {escola?.responsavelNome}.</p>
+      <div className="page-header">
+        <h1 className="text-2xl font-bold">🏫 {escola?.nome}</h1>
+        <p className="mt-1 text-violet-100">Bem-vindo(a), {escola?.responsavelNome}.</p>
+      </div>
 
       <section className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Nova turma</h2>
@@ -37,7 +39,7 @@ export default async function PainelEscolaPage() {
             <li key={turma.id}>
               <Link
                 href={`/escola/painel/turmas/${turma.id}`}
-                className="block rounded-md border border-gray-200 p-4 hover:border-blue-400"
+                className="block card p-4 hover:border-blue-400"
               >
                 <p className="font-medium">{turma.nome}</p>
                 <p className="text-sm text-gray-500">

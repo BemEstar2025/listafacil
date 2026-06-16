@@ -34,7 +34,12 @@ export async function POST(request: NextRequest) {
   }
 
   const turma = await prisma.turma.create({
-    data: { ...parsed.data, escolaId: sessao.sub },
+    data: {
+      ...parsed.data,
+      escolaId: sessao.sub,
+      listas: { create: { ano: parsed.data.anoLetivo } },
+    },
+    include: { listas: true },
   });
   return NextResponse.json(turma, { status: 201 });
 }

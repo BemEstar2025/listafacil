@@ -34,26 +34,26 @@ export default function LoginPapelariaPage() {
     <main className="mx-auto max-w-md p-8">
       <h1 className="mb-6 text-2xl font-bold">Login da Papelaria</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           E-mail
-          <input name="email" type="email" required className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="email" type="email" required className="input" />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           Senha
-          <input name="senha" type="password" required className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="senha" type="password" required className="input" />
         </label>
         {erro && <p className="text-sm text-red-600">{erro}</p>}
         <button
           type="submit"
           disabled={carregando}
-          className="rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+          className="btn-accent"
         >
           {carregando ? "Entrando..." : "Entrar"}
         </button>
       </form>
       <p className="mt-4 text-sm text-gray-600">
         Ainda não tem conta?{" "}
-        <a href="/papelaria/cadastro" className="text-green-600 underline">
+        <a href="/papelaria/cadastro" className="link-accent">
           Cadastrar papelaria
         </a>
       </p>

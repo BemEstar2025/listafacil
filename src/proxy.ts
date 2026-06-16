@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verificarToken } from "@/lib/auth";
 import { COOKIE_NAME } from "@/lib/session";
+import { ADMIN_COOKIE } from "@/lib/admin";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,9 +16,16 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/papelaria/login", request.url));
   }
 
+  if (pathname.startsWith("/admin/painel")) {
+    const senhaAdmin = request.cookies.get(ADMIN_COOKIE)?.value;
+    if (!senhaAdmin || senhaAdmin !== process.env.ADMIN_SECRET) {
+      return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/escola/painel/:path*", "/papelaria/painel/:path*"],
+  matcher: ["/escola/painel/:path*", "/papelaria/painel/:path*", "/admin/painel/:path*"],
 };

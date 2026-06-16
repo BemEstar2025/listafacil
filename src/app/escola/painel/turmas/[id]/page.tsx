@@ -25,7 +25,7 @@ export default async function TurmaDetalhePage({ params }: { params: Promise<{ i
 
   return (
     <main className="mx-auto max-w-3xl p-8">
-      <a href="/escola/painel" className="text-sm text-blue-600 underline">
+      <a href="/escola/painel" className="text-sm link-primary">
         ← Voltar
       </a>
       <h1 className="mt-2 text-2xl font-bold">{turma.nome}</h1>

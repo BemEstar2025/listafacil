@@ -36,7 +36,7 @@ export default function AvaliacaoForm({ orcamentoId }: { orcamentoId: string }) 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 rounded-md border border-gray-200 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 card p-4">
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -52,13 +52,13 @@ export default function AvaliacaoForm({ orcamentoId }: { orcamentoId: string }) 
       <textarea
         name="comentario"
         placeholder="Comentário (opcional)"
-        className="rounded-md border border-gray-300 px-3 py-2"
+        className="input"
       />
       {erro && <p className="text-sm text-red-600">{erro}</p>}
       <button
         type="submit"
         disabled={enviando}
-        className="self-start rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        className="btn-primary self-start"
       >
         {enviando ? "Enviando..." : "Enviar avaliação"}
       </button>

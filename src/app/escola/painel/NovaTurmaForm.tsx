@@ -35,43 +35,43 @@ export default function NovaTurmaForm() {
       return;
     }
 
-    e.currentTarget.reset();
-    router.refresh();
+    const turma = await res.json();
+    router.push(`/escola/painel/turmas/${turma.id}`);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 rounded-md border border-gray-200 p-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3 card p-4">
       <div className="grid grid-cols-2 gap-3">
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           Nome da turma
-          <input name="nome" required placeholder="1º Ano A" className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="nome" required placeholder="1º Ano A" className="input" />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           Ano letivo
-          <input name="anoLetivo" type="number" required defaultValue={2026} className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="anoLetivo" type="number" required defaultValue={2026} className="input" />
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           Período
-          <select name="periodo" required className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal">
+          <select name="periodo" required className="input">
             <option value="MANHA">Manhã</option>
             <option value="TARDE">Tarde</option>
             <option value="INTEGRAL">Integral</option>
           </select>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="label">
           Qtd. estimada de alunos
-          <input name="qtdAlunos" type="number" required className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="qtdAlunos" type="number" required className="input" />
         </label>
-        <label className="col-span-2 flex flex-col gap-1 text-sm font-medium">
+        <label className="label col-span-2">
           Professor responsável
-          <input name="professor" required className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal" />
+          <input name="professor" required className="input" />
         </label>
       </div>
       {erro && <p className="text-sm text-red-600">{erro}</p>}
       <button
         type="submit"
         disabled={carregando}
-        className="self-start rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        className="btn-primary self-start"
       >
         {carregando ? "Criando..." : "Criar turma"}
       </button>

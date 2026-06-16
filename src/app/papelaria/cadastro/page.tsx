@@ -72,14 +72,14 @@ export default function CadastroPapelariaPage() {
         <button
           type="submit"
           disabled={carregando}
-          className="rounded-md bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700 disabled:opacity-50"
+          className="btn-accent"
         >
           {carregando ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
       <p className="mt-4 text-sm text-gray-600">
         Já tem conta?{" "}
-        <a href="/papelaria/login" className="text-green-600 underline">
+        <a href="/papelaria/login" className="link-accent">
           Entrar
         </a>
       </p>
@@ -99,13 +99,13 @@ function Input({
   required?: boolean;
 }) {
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium">
+    <label className="label">
       {label}
       <input
         name={name}
         type={type}
         required={required}
-        className="rounded-md border border-gray-300 px-3 py-2 text-base font-normal"
+        className="input"
       />
     </label>
   );

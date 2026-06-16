@@ -58,6 +58,7 @@ export async function GET(request: NextRequest) {
       whatsapp: papelaria.whatsapp,
       entregaDomicilio: papelaria.entregaDomicilio,
       retiradaLocal: papelaria.retiradaLocal,
+      destacada: Boolean(papelaria.destacadaAte && papelaria.destacadaAte > new Date()),
       percentualDisponivel,
       totalEstimado,
       notaMedia,
@@ -66,6 +67,7 @@ export async function GET(request: NextRequest) {
   });
 
   resultado.sort((a, b) => {
+    if (a.destacada !== b.destacada) return a.destacada ? -1 : 1;
     if (cep && a.distanciaEstimada !== null && b.distanciaEstimada !== null) {
       return a.distanciaEstimada - b.distanciaEstimada;
     }

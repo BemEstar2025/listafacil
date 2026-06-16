@@ -25,27 +25,27 @@ export default function LinkCompartilhamento({ listaId }: { listaId: string }) {
   );
 
   return (
-    <section className="rounded-md border border-gray-200 p-4">
+    <section className="card p-4">
       <h2 className="mb-3 text-lg font-semibold">Compartilhar lista</h2>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
         <img src={dados.qrCodeDataUrl} alt="QR Code da lista" className="h-32 w-32 rounded-md border" />
         <div className="flex flex-1 flex-col gap-2">
-          <code className="break-all rounded bg-gray-100 px-2 py-1 text-xs">{dados.url}</code>
+          <code className="break-all rounded-xl bg-violet-50 px-2 py-1 text-xs text-violet-900">{dados.url}</code>
           <div className="flex flex-wrap gap-2">
-            <button onClick={copiarLink} className="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50">
+            <button onClick={copiarLink} className="btn-outline text-sm px-3 py-1.5">
               {copiado ? "Copiado!" : "Copiar link"}
             </button>
             <a
               href={`https://wa.me/?text=${mensagemWhatsapp}`}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md bg-green-600 px-3 py-1.5 text-sm text-white hover:bg-green-700"
+              className="btn-whatsapp text-sm"
             >
               Compartilhar via WhatsApp
             </a>
             <a
               href={`mailto:?subject=Lista%20de%20material%20escolar&body=${mensagemWhatsapp}`}
-              className="rounded-md border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50"
+              className="btn-outline text-sm px-3 py-1.5"
             >
               Enviar por e-mail
             </a>
