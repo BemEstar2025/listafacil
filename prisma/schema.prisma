@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum StatusLista {
+  ATIVA
+  ARQUIVADA
+}
+
+enum CategoriaItem {
+  PAPELARIA
+  HIGIENE
+  UNIFORME
+  OUTRO
+}
+
+enum StatusOrcamento {
+  NOVO
+  VISUALIZADO
+  EM_SEPARACAO
+  PRONTO
+  ENTREGUE
+}
+
+enum Periodo {
+  MANHA
+  TARDE
+  INTEGRAL
+}
+
+model Escola {
+  id                    String   @id @default(uuid())
+  nome                  String
+  cnpj                  String   @unique
+  endereco              String
+  telefone              String
+  email                 String   @unique
+  logoUrl               String?
+  responsavelNome       String
+  senhaHash             String
+  criadoEm               DateTime @default(now())
+
+  turmas                Turma[]
+
+  @@map("escolas")
+}
+
+model Turma {
+  id           String   @id @default(uuid())
+  escolaId     String
+  escola       Escola   @relation(fields: [escolaId], references: [id], onDelete: Cascade)
+  nome         String
+  anoLetivo    Int
+  periodo      Periodo
+  qtdAlunos    Int
+  professor    String
+  criadoEm     DateTime @default(now())
+
+  listas       Lista[]
+
+  @@map("turmas")
+}
+
+model Lista {
+  id          String       @id @default(uuid())
+  turmaId     String
+  turma       Turma        @relation(fields: [turmaId], references: [id], onDelete: Cascade)
+  ano         Int
+  status      StatusLista  @default(ATIVA)
+  linkUnico   String       @unique @default(uuid())
+  criadoEm    DateTime     @default(now())
+
+  itens       ItemLista[]
+  orcamentos  Orcamento[]
+
+  @@map("listas")
+}
+
+model ItemLista {
+  id             String        @id @default(uuid())
+  listaId        String
+  lista          Lista         @relation(fields: [listaId], references: [id], onDelete: Cascade)
+  nome           String
+  quantidade     Int
+  especificacao  String?
+  observacao     String?
+  obrigatorio    Boolean       @default(true)
+  categoria      CategoriaItem @default(PAPELARIA)
+
+  itensOrcamento ItemOrcamento[]
+
+  @@map("itens_lista")
+}
+
+model Papelaria {
+  id              String   @id @default(uuid())
+  nomeFantasia    String
+  razaoSocial     String
+  cnpj            String   @unique
+  endereco        String
+  cep             String
+  lat             Float?
+  lng             Float?
+  whatsapp        String
+  telefone        String?
+  horario         String?
+  raioKm          Float    @default(5)
+  logoUrl         String?
+  fotos           String?
+  entregaDomicilio Boolean @default(false)
+  retiradaLocal   Boolean  @default(true)
+  email           String   @unique
+  senhaHash       String
+  criadoEm        DateTime @default(now())
+
+  produtos        Produto[]
+  orcamentos      Orcamento[]
+  avaliacoes      Avaliacao[]
+
+  @@map("papelarias")
+}
+
+model Produto {
+  id             String   @id @default(uuid())
+  papelariaId    String
+  papelaria      Papelaria @relation(fields: [papelariaId], references: [id], onDelete: Cascade)
+  nome           String
+  sku            String?
+  categoria      String
+  marca          String?
+  especificacao  String?
+  preco          Float
+  estoque        Int      @default(0)
+  fotoUrl        String?
+  tags           String?
+  esgotado       Boolean  @default(false)
+  criadoEm       DateTime @default(now())
+
+  itensOrcamento ItemOrcamento[]
+
+  @@map("produtos")
+}
+
+model Orcamento {
+  id                  String          @id @default(uuid())
+  listaId             String
+  lista               Lista           @relation(fields: [listaId], references: [id], onDelete: Cascade)
+  papelariaId         String
+  papelaria           Papelaria       @relation(fields: [papelariaId], references: [id], onDelete: Cascade)
+  responsavelNome     String
+  responsavelTelefone String
+  nomeAluno           String?
+  status              StatusOrcamento @default(NOVO)
+  total               Float           @default(0)
+  prazo               String?
+  validadeHoras        Int            @default(48)
+  criadoEm            DateTime        @default(now())
+
+  itens               ItemOrcamento[]
+  avaliacao           Avaliacao?
+
+  @@map("orcamentos")
+}
+
+model ItemOrcamento {
+  id              String     @id @default(uuid())
+  orcamentoId     String
+  orcamento       Orcamento  @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
+  itemListaId     String
+  itemLista       ItemLista  @relation(fields: [itemListaId], references: [id])
+  produtoId       String?
+  produto         Produto?   @relation(fields: [produtoId], references: [id])
+  quantidade      Int
+  precoUnitario   Float
+
+  @@map("itens_orcamento")
+}
+
+model Avaliacao {
+  id           String    @id @default(uuid())
+  papelariaId  String
+  papelaria    Papelaria @relation(fields: [papelariaId], references: [id], onDelete: Cascade)
+  orcamentoId  String    @unique
+  orcamento    Orcamento @relation(fields: [orcamentoId], references: [id], onDelete: Cascade)
+  nota         Int
+  comentario   String?
+  criadoEm     DateTime  @default(now())
+
+  @@map("avaliacoes")
+}
